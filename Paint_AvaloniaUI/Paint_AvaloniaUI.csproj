@@ -23,6 +23,5 @@
 
   <ItemGroup>
     <Folder Include="ViewModels\ControlViewModels\" />
-    <Folder Include="Views\CotrolViews\" />
   </ItemGroup>
 </Project>
