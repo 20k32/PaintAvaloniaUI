@@ -22,6 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\ControlViewModels\" />
+    <Compile Update="Views\ControlViews\PaintCanvasView.axaml.cs">
+      <DependentUpon>PaintCanvasView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
