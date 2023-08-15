@@ -25,8 +25,8 @@
 
       <control:PaintCanvasView Grid.Column="1" 
                                Content="{Binding PaintCanvasVM}"
-                               DrawingThickness="10"
-                               DrawingColor="Red"/>
+                               DrawingThickness="4"
+                               DrawingColor="Blue"/>
       <Panel Background="Gray"
              Grid.Column="2"
              Width="10"/>

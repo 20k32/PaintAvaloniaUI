@@ -15,12 +15,14 @@ namespace Paint_AvaloniaUI.Models
 {
     internal class PaintCanvasModel
     {
+        private const int MIN_LINE_RENDER_DISTANCE = 10;
+
         private static LinkedList<StubPolyline> TempPolyLines;
         private static LinkedList<StubLine> TempLines;
         private static LinkedList<Point> PointsForPolyline;
 
         private bool IsDrawing = false;
-        
+
         public static IBrush Brush = new SolidColorBrush(Colors.Black);
         public static double StrokeThickness = 4;
 
@@ -51,7 +53,7 @@ namespace Paint_AvaloniaUI.Models
                 .GetStubPolyline(PointsForPolyline.ToArray(), Brush, StrokeThickness);
 
             PointsForPolyline.Clear();
-            
+
             TempPolyLines.AddLast(polyLine);
 
             IsDrawing = false;
@@ -62,28 +64,35 @@ namespace Paint_AvaloniaUI.Models
 
         public Line OnMouseMove(PointerEventArgs e)
         {
-            if (!IsDrawing)
+            var currentLocation = e.GetPositionRelative();
+
+            if (!IsDrawing
+                || CalculateDistance(PreviousLocation, currentLocation) < MIN_LINE_RENDER_DISTANCE)
             {
                 return null!;
             }
 
-            var currentLocation = e.GetPositionRelative();
-            
             var line = StubLine.GetStubLine(
                 Brush,
                 PreviousLocation,
                 currentLocation,
                 StrokeThickness);
-               
-            TempLines.AddLast(line);
 
             PointsForPolyline.AddLast(PreviousLocation);
             PointsForPolyline.AddLast(currentLocation);
-
             PreviousLocation = currentLocation;
+
+            TempLines.AddLast(line);
 
             return line;
         }
+
+        //this optimization needed to prevent memory leak
+        //because of creating practically the same points and stublines
+
+        private double CalculateDistance(Point a, Point b) =>
+            Math.Sqrt(Math.Pow((b.X - a.X), 2) +
+                Math.Pow((b.Y - a.Y), 2));
 
         private void ClearStubLines(ObservableCollection<Shape> shapes)
         {

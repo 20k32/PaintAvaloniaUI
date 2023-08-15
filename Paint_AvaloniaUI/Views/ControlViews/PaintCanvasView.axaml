@@ -35,20 +35,16 @@
     </ItemsControl.ItemsPanel>
     <ItemsControl.DataTemplates>
       <DataTemplate DataType="Polyline" >
-        <Polyline StrokeThickness="4"
-                  Stroke="Red"/>
+        <Polyline />
       </DataTemplate>
       <DataTemplate DataType="Line">
-        <Line StrokeThickness="4"
-              Stroke="Red"/>
+        <Line />
       </DataTemplate>
       <DataTemplate DataType="Ellipse">
-        <Ellipse StrokeThickness="{Binding DrawingThickness, ElementName=PaintControl}"
-                 Stroke="{Binding DrawingColor, ElementName=PaintControl}"/>
+        <Ellipse />
       </DataTemplate>
       <DataTemplate DataType="Rectangle">
-        <Rectangle StrokeThickness="{Binding DrawingThickness, ElementName=PaintControl}"
-                   Stroke="{Binding DrawingColor, ElementName=PaintControl}"/>
+        <Rectangle />
       </DataTemplate>
     </ItemsControl.DataTemplates>
   </ItemsControl>
