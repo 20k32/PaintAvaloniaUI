@@ -2,7 +2,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModel="using:Paint_AvaloniaUI.ViewModels.ControlViewModels"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              mc:Ignorable="d"
-             x:Class="Paint_AvaloniaUI.Views.ControlViews.PaintCanvasView">
-  <Canvas Background="AntiqueWhite"/>
+             x:Class="Paint_AvaloniaUI.Views.ControlViews.PaintCanvasView"
+             x:DataType="viewModel:PaintCanvasViewModel">
+  <ItemsControl ItemsSource="{Binding Shapes}">
+    <ItemsControl.Styles>
+      <Style Selector="ItemsControl.items > ContentControl">
+        <Setter Property="Canvas.Top" Value="0" />
+      </Style>
+    </ItemsControl.Styles>
+    <ItemsControl.ItemsPanel>
+      <ItemsPanelTemplate>
+        <Canvas Background="AntiqueWhite">
+          <i:Interaction.Behaviors>
+            <ia:EventTriggerBehavior EventName="PointerPressed">
+              <ia:InvokeCommandAction Command="{Binding CanvasPointerPressedCommand}" PassEventArgsToCommand="True"/>
+            </ia:EventTriggerBehavior>
+            <ia:EventTriggerBehavior EventName="PointerReleased">
+              <ia:InvokeCommandAction Command="{Binding CanvasPointerReleasedCommand}" PassEventArgsToCommand="True"/>
+            </ia:EventTriggerBehavior>
+            <ia:EventTriggerBehavior EventName="PointerMoved">
+              <ia:InvokeCommandAction Command="{Binding CanvasPointerMovedCommand}" PassEventArgsToCommand="True"/>
+            </ia:EventTriggerBehavior>
+          </i:Interaction.Behaviors>
+        </Canvas>
+      </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+    <ItemsControl.DataTemplates>
+      <DataTemplate DataType="Polyline">
+        <Polyline />
+      </DataTemplate>
+      <DataTemplate DataType="Line">
+        <Line />
+      </DataTemplate>
+      <DataTemplate DataType="Ellipse">
+        <Ellipse />
+      </DataTemplate>
+      <DataTemplate DataType="Rectangle">
+        <Rectangle/>
+      </DataTemplate>
+    </ItemsControl.DataTemplates>
+  </ItemsControl>
 </UserControl>

@@ -22,7 +22,7 @@
       <Panel Background="Gray"
              Grid.Column="0" 
              Width="10"/>
-      <TransitioningContentControl 
+      <ContentControl 
         Grid.Column="1" 
         Content="{Binding PaintCanvasVM}" />
       <Panel Background="Gray"
