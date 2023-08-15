@@ -28,6 +28,8 @@ namespace Paint_AvaloniaUI.ViewModels.ControlViewModels
             Shapes = new();
         }
 
+        #region Commands
+
         [RelayCommand]
         public void CanvasPointerPressed(PointerPressedEventArgs e)
         {
@@ -50,5 +52,7 @@ namespace Paint_AvaloniaUI.ViewModels.ControlViewModels
                 Shapes.Add(line);
             }
         }
+
+        #endregion
     }
 }

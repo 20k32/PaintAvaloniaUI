@@ -3,7 +3,7 @@
         xmlns:vm="using:Paint_AvaloniaUI.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:control="using:Paint_AvaloniaUI.Views.CotrolViews"
+        xmlns:control="using:Paint_AvaloniaUI.Views.ControlViews"
         xmlns:viewModel="using:Paint_AvaloniaUI.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Paint_AvaloniaUI.Views.MainWindow"
@@ -22,9 +22,11 @@
       <Panel Background="Gray"
              Grid.Column="0" 
              Width="10"/>
-      <ContentControl 
-        Grid.Column="1" 
-        Content="{Binding PaintCanvasVM}" />
+
+      <control:PaintCanvasView Grid.Column="1" 
+                               Content="{Binding PaintCanvasVM}"
+                               DrawingThickness="10"
+                               DrawingColor="Red"/>
       <Panel Background="Gray"
              Grid.Column="2"
              Width="10"/>

@@ -15,8 +15,7 @@ namespace Paint_AvaloniaUI.Models.Extensions
             }
             catch { }
 
-            return new Point(0, 0);
+            return default;
         }
-            
     }
 }

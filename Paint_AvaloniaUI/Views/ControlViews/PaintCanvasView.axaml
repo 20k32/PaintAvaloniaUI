@@ -3,11 +3,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModel="using:Paint_AvaloniaUI.ViewModels.ControlViewModels"
+             xmlns:stubModel="using:Paint_AvaloniaUI.Models.StubModels"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              mc:Ignorable="d"
              x:Class="Paint_AvaloniaUI.Views.ControlViews.PaintCanvasView"
-             x:DataType="viewModel:PaintCanvasViewModel">
+             x:DataType="viewModel:PaintCanvasViewModel"
+             x:Name="PaintControl">
   <ItemsControl ItemsSource="{Binding Shapes}">
     <ItemsControl.Styles>
       <Style Selector="ItemsControl.items > ContentControl">
@@ -32,17 +34,21 @@
       </ItemsPanelTemplate>
     </ItemsControl.ItemsPanel>
     <ItemsControl.DataTemplates>
-      <DataTemplate DataType="Polyline">
-        <Polyline />
+      <DataTemplate DataType="Polyline" >
+        <Polyline StrokeThickness="4"
+                  Stroke="Red"/>
       </DataTemplate>
       <DataTemplate DataType="Line">
-        <Line />
+        <Line StrokeThickness="4"
+              Stroke="Red"/>
       </DataTemplate>
       <DataTemplate DataType="Ellipse">
-        <Ellipse />
+        <Ellipse StrokeThickness="{Binding DrawingThickness, ElementName=PaintControl}"
+                 Stroke="{Binding DrawingColor, ElementName=PaintControl}"/>
       </DataTemplate>
       <DataTemplate DataType="Rectangle">
-        <Rectangle/>
+        <Rectangle StrokeThickness="{Binding DrawingThickness, ElementName=PaintControl}"
+                   Stroke="{Binding DrawingColor, ElementName=PaintControl}"/>
       </DataTemplate>
     </ItemsControl.DataTemplates>
   </ItemsControl>

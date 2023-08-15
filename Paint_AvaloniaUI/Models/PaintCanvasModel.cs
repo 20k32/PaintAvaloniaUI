@@ -15,12 +15,14 @@ namespace Paint_AvaloniaUI.Models
 {
     internal class PaintCanvasModel
     {
-
-        private bool IsDrawing = false;
-
         private static LinkedList<StubPolyline> TempPolyLines;
         private static LinkedList<StubLine> TempLines;
         private static LinkedList<Point> PointsForPolyline;
+
+        private bool IsDrawing = false;
+        
+        public static IBrush Brush = new SolidColorBrush(Colors.Black);
+        public static double StrokeThickness = 4;
 
         private Point PreviousLocation;
 
@@ -38,8 +40,6 @@ namespace Paint_AvaloniaUI.Models
         {
             IsDrawing = true;
 
-            PointsForPolyline.Clear();
-
             PreviousLocation = e.GetPositionRelative();
         }
 
@@ -47,10 +47,11 @@ namespace Paint_AvaloniaUI.Models
         {
             TempLines.Clear();
 
-            var polyLine = StubPolyline.GetStubPolyline(
-                 new SolidColorBrush(Color.FromRgb(55, 155, 255)),
-                 PointsForPolyline.ToArray(), 4);
+            var polyLine = StubPolyline
+                .GetStubPolyline(PointsForPolyline.ToArray(), Brush, StrokeThickness);
 
+            PointsForPolyline.Clear();
+            
             TempPolyLines.AddLast(polyLine);
 
             IsDrawing = false;
@@ -69,10 +70,10 @@ namespace Paint_AvaloniaUI.Models
             var currentLocation = e.GetPositionRelative();
             
             var line = StubLine.GetStubLine(
-                new SolidColorBrush(Color.FromRgb(55, 155, 255)),
+                Brush,
                 PreviousLocation,
                 currentLocation,
-                4);
+                StrokeThickness);
                
             TempLines.AddLast(line);
 
