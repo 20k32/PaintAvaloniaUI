@@ -18,26 +18,29 @@ namespace Paint_AvaloniaUI.Models
 
         private bool IsDrawing = false;
 
-        private LinkedList<StubPolyline> TempPolyLines;
-        private LinkedList<StubLine> TempLines;
-        
-        public List<Point> PointsForPolyline;
+        private static LinkedList<StubPolyline> TempPolyLines;
+        private static LinkedList<StubLine> TempLines;
+        private static LinkedList<Point> PointsForPolyline;
 
         private Point PreviousLocation;
 
-        public PaintCanvasModel()
+        static PaintCanvasModel()
         {
             TempPolyLines = new();
             TempLines = new();
+            PointsForPolyline = new();
         }
+
+        public PaintCanvasModel()
+        { }
 
         public void OnMousePressed(PointerPressedEventArgs e)
         {
             IsDrawing = true;
-            
-            PointsForPolyline = new();
 
-            PreviousLocation = e.GetCoordsRelativeToCanvas();
+            PointsForPolyline.Clear();
+
+            PreviousLocation = e.GetPositionRelative();
         }
 
         public void OnMouseReleased(PointerReleasedEventArgs e, ObservableCollection<Shape> shapes)
@@ -46,7 +49,7 @@ namespace Paint_AvaloniaUI.Models
 
             var polyLine = StubPolyline.GetStubPolyline(
                  new SolidColorBrush(Color.FromRgb(55, 155, 255)),
-                 PointsForPolyline, 4);
+                 PointsForPolyline.ToArray(), 4);
 
             TempPolyLines.AddLast(polyLine);
 
@@ -62,7 +65,8 @@ namespace Paint_AvaloniaUI.Models
             {
                 return null!;
             }
-            var currentLocation = e.GetCoordsRelativeToCanvas();
+
+            var currentLocation = e.GetPositionRelative();
             
             var line = StubLine.GetStubLine(
                 new SolidColorBrush(Color.FromRgb(55, 155, 255)),
@@ -72,8 +76,8 @@ namespace Paint_AvaloniaUI.Models
                
             TempLines.AddLast(line);
 
-            PointsForPolyline.Add(PreviousLocation);
-            PointsForPolyline.Add(currentLocation);
+            PointsForPolyline.AddLast(PreviousLocation);
+            PointsForPolyline.AddLast(currentLocation);
 
             PreviousLocation = currentLocation;
 

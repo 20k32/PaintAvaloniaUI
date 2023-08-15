@@ -7,7 +7,7 @@ namespace Paint_AvaloniaUI.Models.Extensions
 {
     public static class PointerPressedExtensions
     {
-        public static Point GetCoordsRelativeToCanvas(this PointerEventArgs e)
+        public static Point GetPositionRelative(this PointerEventArgs e)
         {
             try
             {
