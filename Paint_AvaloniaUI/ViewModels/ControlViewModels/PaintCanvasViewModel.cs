@@ -4,6 +4,7 @@ using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.Input;
+using Paint_AvaloniaUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,40 +16,39 @@ using System.Threading.Tasks;
 
 namespace Paint_AvaloniaUI.ViewModels.ControlViewModels
 {
-
-    public static class PointerPressedExtensions
-    {
-        public static Point GetCoordsRelativeToCanvas(this PointerEventArgs e) =>
-            e.GetPosition((Canvas)e.Source!);
-    }
-
     internal partial class PaintCanvasViewModel : ViewModelBase
     {
-        public ObservableCollection<Shape> Shapes { get; private set; } = null!;
-        public Canvas RelativeCanvas { get; set; } = null!;
+        public ObservableCollection<Shape> Shapes { get; set; }
+
+        private PaintCanvasModel Paint;
 
         public PaintCanvasViewModel()
         {
+            Paint = new();
             Shapes = new();
-            RelativeCanvas = new();
         }
 
         [RelayCommand]
         public void CanvasPointerPressed(PointerPressedEventArgs e)
         {
-            
+            Paint.OnMousePressed(e);
         }
 
         [RelayCommand]
         public void CanvasPointerReleased(PointerReleasedEventArgs e)
         {
-            
+            Paint.OnMouseReleased(e, Shapes);
         }
 
         [RelayCommand]
         public void CanvasPointerMoved(PointerEventArgs e)
         {
-            Debug.WriteLine(e.GetCoordsRelativeToCanvas());
+            var line = Paint.OnMouseMove(e);
+
+            if(line  != null)
+            {
+                Shapes.Add(line);
+            }
         }
     }
 }
