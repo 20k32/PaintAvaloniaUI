@@ -24,8 +24,8 @@
         Grid.Column="0">
         <Button Content="Erase"
                 Command="{Binding EraseDrawingCommand}"/>
-        <Button Content="Save"
-                Command="{Binding SaveDrawingCommand}"/>
+        <Button Content="Clear"
+                Command="{Binding ClearDrawingCommand}"/>
       </WrapPanel>
       <StackPanel Grid.Column="1"
                   Width="200"

@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using Avalonia.Metadata;
 using CommunityToolkit.Mvvm.Input;
@@ -9,11 +10,17 @@ namespace Paint_AvaloniaUI.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    internal PaintCanvasViewModel PaintCanvasVM => new PaintCanvasViewModel()
+    private PaintCanvasViewModel paintCanvasViewModel = null!;
+
+    internal PaintCanvasViewModel PaintCanvasVM => paintCanvasViewModel;
+
+    public MainWindowViewModel()
     {
-        //default value, mydrawingstyle property can change it in future
-        Paint = UserDrawingStyle
-    };
+        paintCanvasViewModel = new PaintCanvasViewModel()
+        {
+            Paint = UserDrawingStyle
+        };
+    }
 
     internal PaintModelBase UserDrawingStyle => new HandDrawingModel();
 
@@ -24,7 +31,7 @@ public partial class MainWindowViewModel : ViewModelBase
     public double BrushDrawingThickness
     {
         get => brushDrawingThickness;
-        set=> SetProperty(ref brushDrawingThickness, value);
+        set => SetProperty(ref brushDrawingThickness, value);
     }
 
     #endregion
@@ -59,7 +66,7 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void EraseDrawing()
     {
-        if(BrushDrawingColor.Color != Colors.AntiqueWhite)
+        if (BrushDrawingColor.Color != Colors.AntiqueWhite)
         {
             BrushDrawingColor.Color = Colors.AntiqueWhite;
         }
@@ -72,10 +79,8 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void SaveDrawing()
-    {
-        
-    }
+    public void ClearDrawing() =>
+        PaintCanvasVM.ClearCanvas();
 
     #endregion
 }

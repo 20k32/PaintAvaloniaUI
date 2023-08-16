@@ -60,6 +60,7 @@ namespace Paint_AvaloniaUI.Models
                 || CalculateDistance(PreviousLocation, currentLocation) < MinRenderDistance)
             {
                 TemporaryResultShape = null!;
+
                 return;
             }
 
@@ -107,6 +108,12 @@ namespace Paint_AvaloniaUI.Models
                     shapes.Add(item);
                 }
             }
+        }
+
+        public override void ClearCanvas(ObservableCollection<Shape> shapes)
+        {
+            shapes.Clear();
+            TempPolyLines.Clear();
         }
     }
 }

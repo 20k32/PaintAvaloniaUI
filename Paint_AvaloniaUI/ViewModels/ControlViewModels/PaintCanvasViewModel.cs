@@ -4,6 +4,7 @@ using Avalonia.Media;
 using CommunityToolkit.Mvvm.Input;
 using Paint_AvaloniaUI.Models;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Paint_AvaloniaUI.ViewModels.ControlViewModels
 {
@@ -19,6 +20,9 @@ namespace Paint_AvaloniaUI.ViewModels.ControlViewModels
         {
             Shapes = new();
         }
+
+        public void ClearCanvas() =>
+             Paint.ClearCanvas(Shapes);
 
         #region Commands
 

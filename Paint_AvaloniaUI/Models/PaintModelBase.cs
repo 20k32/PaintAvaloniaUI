@@ -21,7 +21,7 @@ namespace Paint_AvaloniaUI.Models
 
         public abstract void ClearStubObjects(ObservableCollection<Shape> shapes);
         public abstract void AddRegularObjects(ObservableCollection<Shape> shapes);
-        //public abstract void SaveDrawing();
+        public abstract void ClearCanvas(ObservableCollection<Shape> shapes);
 
         public Shape TemporaryResultShape = null!;
     }
