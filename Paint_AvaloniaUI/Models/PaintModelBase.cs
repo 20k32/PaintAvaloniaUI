@@ -11,8 +11,9 @@ namespace Paint_AvaloniaUI.Models
 
         protected static bool IsDrawing;
         
-        public static IBrush DrawingColor = null!;
+        public static SolidColorBrush DrawingColor = null!;
         public static double DrawingThickness;
+        public static SolidColorBrush CurrentCanvasBackground = null!;
 
         public abstract void OnPointerPressed(PointerPressedEventArgs e);
         public abstract void OnPointerReleased(PointerReleasedEventArgs e);
@@ -20,6 +21,7 @@ namespace Paint_AvaloniaUI.Models
 
         public abstract void ClearStubObjects(ObservableCollection<Shape> shapes);
         public abstract void AddRegularObjects(ObservableCollection<Shape> shapes);
+        //public abstract void SaveDrawing();
 
         public Shape TemporaryResultShape = null!;
     }

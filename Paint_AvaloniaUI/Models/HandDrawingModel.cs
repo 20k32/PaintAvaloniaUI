@@ -42,8 +42,6 @@ namespace Paint_AvaloniaUI.Models
 
         public override void OnPointerReleased(PointerReleasedEventArgs e)
         {
-            TempLines.Clear();
-
             var polyLine = StubPolyline
                 .GetStubPolyline(PointsForPolyline.ToArray(), DrawingColor, DrawingThickness);
 
@@ -96,6 +94,8 @@ namespace Paint_AvaloniaUI.Models
                     shapes.Remove(item);
                 }
             }
+
+            TempLines.Clear();
         }
 
         public override void AddRegularObjects(ObservableCollection<Shape> shapes)

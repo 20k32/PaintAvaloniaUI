@@ -22,17 +22,19 @@
       <WrapPanel
         MinWidth="300"
         Grid.Column="0">
-        <TextBlock Text="11111111111111111111111111111111111111111111"/>
+        <Button Content="Erase"
+                Command="{Binding EraseDrawingCommand}"/>
+        <Button Content="Save"
+                Command="{Binding SaveDrawingCommand}"/>
       </WrapPanel>
       <StackPanel Grid.Column="1"
                   Width="200"
                   MinWidth="100"
                   Margin="10, 10, 10, 0">
-        <TextBlock Text="{Binding MyDrawingThickness}" HorizontalAlignment="Center"/>
-        <Slider Value="{Binding MyDrawingThickness, Mode=OneWayToSource}"
+        <TextBlock Text="{Binding BrushDrawingThickness}" HorizontalAlignment="Center"/>
+        <Slider Value="{Binding BrushDrawingThickness, Mode=TwoWay}"
                 Minimum="10"
-                Maximum="30"
-                />
+                Maximum="30"/>
       </StackPanel>
     </Grid>
     <Grid x:CompileBindings="False"
@@ -45,9 +47,10 @@
 
       <control:PaintCanvasView Grid.Column="1"
                                DataContext="{Binding PaintCanvasVM}"
-                               DrawingStyle="{Binding $parent[Window].DataContext.MyDrawingStyle}"
-                               DrawingThickness="{Binding $parent[Window].DataContext.MyDrawingThickness}"
-                               DrawingColor="{Binding $parent[Window].DataContext.MyDrawingColor}"/>
+                               CanvasBackground="{Binding $parent[Window].DataContext.Background}"
+                               DrawingStyle="{Binding $parent[Window].DataContext.UserDrawingStyle}"
+                               DrawingThickness="{Binding $parent[Window].DataContext.BrushDrawingThickness}"
+                               DrawingColor="{Binding $parent[Window].DataContext.BrushDrawingColor}"/>
 
       <Panel Background="Gray"
              Grid.Column="2"

@@ -20,13 +20,13 @@ namespace Paint_AvaloniaUI.Views.ControlViews
 
         #region DrawingColor
 
-        internal static readonly DirectProperty<PaintCanvasView, IBrush> DrawingColorProperty =
-            AvaloniaProperty.RegisterDirect<PaintCanvasView, IBrush>(
+        internal static readonly DirectProperty<PaintCanvasView, SolidColorBrush> DrawingColorProperty =
+            AvaloniaProperty.RegisterDirect<PaintCanvasView, SolidColorBrush>(
                 nameof(DrawingColor),
                 getter => getter.DrawingColor,
                 (setter, value) => setter.DrawingColor = value);
 
-        public IBrush DrawingColor
+        public SolidColorBrush DrawingColor
         {
             get => PaintModelBase.DrawingColor;
             set => SetAndRaise(DrawingColorProperty, ref PaintModelBase.DrawingColor, value);
@@ -72,5 +72,23 @@ namespace Paint_AvaloniaUI.Views.ControlViews
 
         #endregion
 
+        #region Background
+
+        internal static readonly DirectProperty<PaintCanvasView, SolidColorBrush> CanvasBackgroundProperty =
+            AvaloniaProperty.RegisterDirect<PaintCanvasView, SolidColorBrush>(
+                nameof(CanvasBackground),
+                getter => getter.CanvasBackground,
+                (setter, value) => setter.CanvasBackground = value);
+
+        public SolidColorBrush CanvasBackground
+        {
+            get => PaintModelBase.CurrentCanvasBackground;
+            set
+            {
+                SetAndRaise(CanvasBackgroundProperty, ref PaintModelBase.CurrentCanvasBackground, value);
+            }
+        }
+
+        #endregion
     }
 }
