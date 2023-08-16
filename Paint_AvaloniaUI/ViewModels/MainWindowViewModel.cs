@@ -9,13 +9,19 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     internal PaintCanvasViewModel PaintCanvasVM => new PaintCanvasViewModel()
     {
-        //default value, mydrawingstyle property can change it
+        //default value, mydrawingstyle property can change it in future
         Paint = MyDrawingStyle
     };
 
     internal PaintModelBase MyDrawingStyle => new HandDrawingModel();
 
-    public double MyDrawingThickness => 20;
+    private double myDrawingThickness = 10;
+
+    public double MyDrawingThickness
+    {
+        get => myDrawingThickness;
+        set=> SetProperty(ref myDrawingThickness, value);
+    }
 
     public IBrush MyDrawingColor => new SolidColorBrush(Colors.Green);
 }

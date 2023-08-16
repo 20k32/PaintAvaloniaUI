@@ -4,37 +4,57 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:control="using:Paint_AvaloniaUI.Views.ControlViews"
         xmlns:viewModel="using:Paint_AvaloniaUI.ViewModels"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d"
         x:Class="Paint_AvaloniaUI.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Paint_AvaloniaUI"
         x:DataType="viewModel:MainWindowViewModel"
-        x:Name="MainWindowControl">
+        x:Name="MainWindowControl"
+        MinHeight="600"
+        MinWidth="600"
+        Height="600"
+        Width="800">
 
   <Grid RowDefinitions="Auto, *, Auto">
-    <Grid Grid.Row="0">
-      <Panel Background="Gray"
-             Height="50"/>
+    <Grid Grid.Row="0"
+          ColumnDefinitions="*, Auto"
+          Background="Gray">
+      <WrapPanel
+        MinWidth="300"
+        Grid.Column="0">
+        <TextBlock Text="11111111111111111111111111111111111111111111"/>
+      </WrapPanel>
+      <StackPanel Grid.Column="1"
+                  Width="200"
+                  MinWidth="100"
+                  Margin="10, 10, 10, 0">
+        <TextBlock Text="{Binding MyDrawingThickness}" HorizontalAlignment="Center"/>
+        <Slider Value="{Binding MyDrawingThickness, Mode=OneWayToSource}"
+                Minimum="10"
+                Maximum="30"
+                />
+      </StackPanel>
     </Grid>
     <Grid x:CompileBindings="False"
           Grid.Row="1"
           ColumnDefinitions="Auto, *, Auto">
       <Panel Background="Gray"
-             Grid.Column="0" 
-             Width="10"/>
+             Grid.Column="0"
+             Width="10">
+      </Panel>
 
       <control:PaintCanvasView Grid.Column="1"
                                DataContext="{Binding PaintCanvasVM}"
                                DrawingStyle="{Binding $parent[Window].DataContext.MyDrawingStyle}"
                                DrawingThickness="{Binding $parent[Window].DataContext.MyDrawingThickness}"
                                DrawingColor="{Binding $parent[Window].DataContext.MyDrawingColor}"/>
-      
+
       <Panel Background="Gray"
              Grid.Column="2"
              Width="10"/>
     </Grid>
     <Grid Grid.Row="2">
-      <Panel Background="Gray" 
+      <Panel Background="Gray"
              Height="50"/>
     </Grid>
   </Grid>
