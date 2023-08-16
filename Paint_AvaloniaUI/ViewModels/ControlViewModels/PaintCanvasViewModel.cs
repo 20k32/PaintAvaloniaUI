@@ -3,6 +3,7 @@ using Avalonia.Input;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.Input;
 using Paint_AvaloniaUI.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -16,13 +17,23 @@ namespace Paint_AvaloniaUI.ViewModels.ControlViewModels
 
         internal PaintModelBase Paint = null!;
 
-        public PaintCanvasViewModel()
+        private Action Notification = null!;
+
+        internal PaintCanvasViewModel(PaintModelBase paint, Action notifyCanExecuteChanged = null!)
         {
             Shapes = new();
+            Paint = paint;
+            Notification = notifyCanExecuteChanged;
         }
 
-        public void ClearCanvas() =>
-             Paint.ClearCanvas(Shapes);
+        public void ClearCanvas()
+        {
+            Paint.ClearCanvas(Shapes);
+            Notification?.Invoke();
+        }
+
+        public bool CanClearCanvas() =>
+            Paint.CanClearCanvas(Shapes);
 
         #region Commands
 
@@ -38,6 +49,8 @@ namespace Paint_AvaloniaUI.ViewModels.ControlViewModels
             Paint.OnPointerReleased(e);
             Paint.ClearStubObjects(Shapes);
             Paint.AddRegularObjects(Shapes);
+
+            Notification?.Invoke();
         }
 
         [RelayCommand]
@@ -45,7 +58,7 @@ namespace Paint_AvaloniaUI.ViewModels.ControlViewModels
         {
             Paint.OnPointerMoved(e);
 
-            if(Paint.TemporaryResultShape != null)
+            if (Paint.TemporaryResultShape != null)
             {
                 Shapes.Add(Paint.TemporaryResultShape);
             }

@@ -16,10 +16,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        paintCanvasViewModel = new PaintCanvasViewModel()
-        {
-            Paint = UserDrawingStyle
-        };
+        paintCanvasViewModel = new PaintCanvasViewModel(UserDrawingStyle, CanExecuteCommandsUpdater);
     }
 
     internal PaintModelBase UserDrawingStyle => new HandDrawingModel();
@@ -78,9 +75,18 @@ public partial class MainWindowViewModel : ViewModelBase
         OnPropertyChanged(nameof(BrushDrawingColor));
     }
 
-    [RelayCommand]
-    public void ClearDrawing() =>
+    [RelayCommand(CanExecute = nameof(CanExecClearDrawing))]
+    private void ClearDrawing() =>
         PaintCanvasVM.ClearCanvas();
+
+    private bool CanExecClearDrawing() =>
+        PaintCanvasVM.CanClearCanvas();
+    
+
+    private void CanExecuteCommandsUpdater()
+    {
+        ClearDrawingCommand.NotifyCanExecuteChanged();
+    }
 
     #endregion
 }

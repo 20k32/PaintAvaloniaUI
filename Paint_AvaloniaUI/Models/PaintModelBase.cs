@@ -18,10 +18,10 @@ namespace Paint_AvaloniaUI.Models
         public abstract void OnPointerPressed(PointerPressedEventArgs e);
         public abstract void OnPointerReleased(PointerReleasedEventArgs e);
         public abstract void OnPointerMoved(PointerEventArgs e);
-
         public abstract void ClearStubObjects(ObservableCollection<Shape> shapes);
         public abstract void AddRegularObjects(ObservableCollection<Shape> shapes);
         public abstract void ClearCanvas(ObservableCollection<Shape> shapes);
+        public abstract bool CanClearCanvas(ObservableCollection<Shape> shapes);
 
         public Shape TemporaryResultShape = null!;
     }

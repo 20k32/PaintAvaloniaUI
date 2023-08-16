@@ -115,5 +115,8 @@ namespace Paint_AvaloniaUI.Models
             shapes.Clear();
             TempPolyLines.Clear();
         }
+
+        public override bool CanClearCanvas(ObservableCollection<Shape> shapes) =>
+            shapes.Count != 0;
     }
 }
