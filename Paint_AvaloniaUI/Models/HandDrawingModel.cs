@@ -13,70 +13,63 @@ using System.Threading.Tasks;
 
 namespace Paint_AvaloniaUI.Models
 {
-    internal class PaintCanvasModel
+    internal class HandDrawingModel : PaintModelBase
     {
-        private const int MIN_LINE_RENDER_DISTANCE = 10;
+        protected override int MinRenderDistance => 10;
 
         private static LinkedList<StubPolyline> TempPolyLines;
         private static LinkedList<StubLine> TempLines;
         private static LinkedList<Point> PointsForPolyline;
-
-        private bool IsDrawing = false;
-
-        public static IBrush Brush = new SolidColorBrush(Colors.Black);
-        public static double StrokeThickness = 4;
-
+        
         private Point PreviousLocation;
 
-        static PaintCanvasModel()
+        static HandDrawingModel()
         {
             TempPolyLines = new();
             TempLines = new();
             PointsForPolyline = new();
         }
 
-        public PaintCanvasModel()
+        public HandDrawingModel()
         { }
 
-        public void OnMousePressed(PointerPressedEventArgs e)
+        public override void OnPointerPressed(PointerPressedEventArgs e)
         {
             IsDrawing = true;
 
             PreviousLocation = e.GetPositionRelative();
         }
 
-        public void OnMouseReleased(PointerReleasedEventArgs e, ObservableCollection<Shape> shapes)
+        public override void OnPointerReleased(PointerReleasedEventArgs e)
         {
             TempLines.Clear();
 
             var polyLine = StubPolyline
-                .GetStubPolyline(PointsForPolyline.ToArray(), Brush, StrokeThickness);
+                .GetStubPolyline(PointsForPolyline.ToArray(), DrawingColor, DrawingThickness);
 
             PointsForPolyline.Clear();
 
             TempPolyLines.AddLast(polyLine);
 
             IsDrawing = false;
-
-            ClearStubLines(shapes);
-            AddStubPolylines(shapes);
         }
 
-        public Line OnMouseMove(PointerEventArgs e)
+        public override void OnPointerMoved(PointerEventArgs e)
         {
             var currentLocation = e.GetPositionRelative();
 
             if (!IsDrawing
-                || CalculateDistance(PreviousLocation, currentLocation) < MIN_LINE_RENDER_DISTANCE)
+                || CalculateDistance(PreviousLocation, currentLocation) < MinRenderDistance)
             {
-                return null!;
+                TemporaryResultShape = null!;
+                return;
             }
 
             var line = StubLine.GetStubLine(
-                Brush,
+                DrawingColor,
                 PreviousLocation,
                 currentLocation,
-                StrokeThickness);
+                DrawingThickness);
 
             PointsForPolyline.AddLast(PreviousLocation);
             PointsForPolyline.AddLast(currentLocation);
@@ -84,7 +77,7 @@ namespace Paint_AvaloniaUI.Models
 
             TempLines.AddLast(line);
 
-            return line;
+            TemporaryResultShape = line;
         }
 
         //this optimization needed to prevent memory leak
@@ -94,7 +87,7 @@ namespace Paint_AvaloniaUI.Models
             Math.Sqrt(Math.Pow((b.X - a.X), 2) +
                 Math.Pow((b.Y - a.Y), 2));
 
-        private void ClearStubLines(ObservableCollection<Shape> shapes)
+        public override void ClearStubObjects(ObservableCollection<Shape> shapes)
         {
             foreach (var item in TempLines)
             {
@@ -105,7 +98,7 @@ namespace Paint_AvaloniaUI.Models
             }
         }
 
-        private void AddStubPolylines(ObservableCollection<Shape> shapes)
+        public override void AddRegularObjects(ObservableCollection<Shape> shapes)
         {
             foreach (var item in TempPolyLines)
             {

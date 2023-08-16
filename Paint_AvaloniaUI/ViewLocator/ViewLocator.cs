@@ -12,9 +12,9 @@ namespace Paint_AvaloniaUI.ViewLocator
     {
         public Control? Build(object? param)
         {
-            var fileName = param.GetType().FullName;
+            var fileName = param!.GetType().FullName;
 
-            var fullFileName = fileName.Replace("ViewModel", "View");
+            var fullFileName = fileName!.Replace("ViewModel", "View");
 
             var type = Type.GetType(fullFileName);
 

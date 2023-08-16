@@ -1,30 +1,21 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
+﻿using Avalonia.Controls.Shapes;
 using Avalonia.Input;
-using Avalonia.Media;
 using CommunityToolkit.Mvvm.Input;
 using Paint_AvaloniaUI.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Paint_AvaloniaUI.ViewModels.ControlViewModels
 {
-    internal partial class PaintCanvasViewModel : ViewModelBase
+    // attached to PaintCanvasView.axaml by viewlocator
+
+    public partial class PaintCanvasViewModel : ViewModelBase
     {
         public ObservableCollection<Shape> Shapes { get; set; }
 
-        private PaintCanvasModel Paint;
+        internal PaintModelBase Paint = null!;
 
         public PaintCanvasViewModel()
         {
-            Paint = new();
             Shapes = new();
         }
 
@@ -33,23 +24,25 @@ namespace Paint_AvaloniaUI.ViewModels.ControlViewModels
         [RelayCommand]
         public void CanvasPointerPressed(PointerPressedEventArgs e)
         {
-            Paint.OnMousePressed(e);
+            Paint.OnPointerPressed(e);
         }
 
         [RelayCommand]
         public void CanvasPointerReleased(PointerReleasedEventArgs e)
         {
-            Paint.OnMouseReleased(e, Shapes);
+            Paint.OnPointerReleased(e);
+            Paint.ClearStubObjects(Shapes);
+            Paint.AddRegularObjects(Shapes);
         }
 
         [RelayCommand]
         public void CanvasPointerMoved(PointerEventArgs e)
         {
-            var line = Paint.OnMouseMove(e);
+            Paint.OnPointerMoved(e);
 
-            if(line  != null)
+            if(Paint.TemporaryResultShape != null)
             {
-                Shapes.Add(line);
+                Shapes.Add(Paint.TemporaryResultShape);
             }
         }
 

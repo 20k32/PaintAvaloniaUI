@@ -1,6 +1,5 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:Paint_AvaloniaUI.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:control="using:Paint_AvaloniaUI.Views.ControlViews"
@@ -9,24 +8,27 @@
         x:Class="Paint_AvaloniaUI.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Paint_AvaloniaUI"
-        x:DataType="viewModel:MainWindowViewModel">
+        x:DataType="viewModel:MainWindowViewModel"
+        x:Name="MainWindowControl">
 
   <Grid RowDefinitions="Auto, *, Auto">
     <Grid Grid.Row="0">
       <Panel Background="Gray"
-             Height="50"
-             />
+             Height="50"/>
     </Grid>
-    <Grid Grid.Row="1"
+    <Grid x:CompileBindings="False"
+          Grid.Row="1"
           ColumnDefinitions="Auto, *, Auto">
       <Panel Background="Gray"
              Grid.Column="0" 
              Width="10"/>
 
-      <control:PaintCanvasView Grid.Column="1" 
-                               Content="{Binding PaintCanvasVM}"
-                               DrawingThickness="4"
-                               DrawingColor="Blue"/>
+      <control:PaintCanvasView Grid.Column="1"
+                               DataContext="{Binding PaintCanvasVM}"
+                               DrawingStyle="{Binding $parent[Window].DataContext.MyDrawingStyle}"
+                               DrawingThickness="{Binding $parent[Window].DataContext.MyDrawingThickness}"
+                               DrawingColor="{Binding $parent[Window].DataContext.MyDrawingColor}"/>
+      
       <Panel Background="Gray"
              Grid.Column="2"
              Width="10"/>

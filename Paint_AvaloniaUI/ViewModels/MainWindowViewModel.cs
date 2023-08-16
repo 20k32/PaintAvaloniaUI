@@ -1,10 +1,21 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Media;
+using Paint_AvaloniaUI.Models;
 using Paint_AvaloniaUI.ViewModels.ControlViewModels;
 
 namespace Paint_AvaloniaUI.ViewModels;
 
-internal partial class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ViewModelBase
 {
-    public string Greeting => "Welcome to Avalonia!";
-    public PaintCanvasViewModel PaintCanvasVM { get; set; } = null!;
+    internal PaintCanvasViewModel PaintCanvasVM => new PaintCanvasViewModel()
+    {
+        //default value, mydrawingstyle property can change it
+        Paint = MyDrawingStyle
+    };
+
+    internal PaintModelBase MyDrawingStyle => new HandDrawingModel();
+
+    public double MyDrawingThickness => 20;
+
+    public IBrush MyDrawingColor => new SolidColorBrush(Colors.Green);
 }
