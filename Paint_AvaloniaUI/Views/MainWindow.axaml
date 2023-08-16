@@ -22,7 +22,7 @@
       <WrapPanel
         MinWidth="300"
         Grid.Column="0">
-        <Button Content="Erase"
+        <Button Content="{Binding EraseButtonName}"
                 Command="{Binding EraseDrawingCommand}"/>
         <Button Content="Clear"
                 Command="{Binding ClearDrawingCommand}"/>
@@ -32,7 +32,8 @@
                   MinWidth="100"
                   Margin="10, 10, 10, 0">
         <TextBlock Text="{Binding BrushDrawingThickness}" HorizontalAlignment="Center"/>
-        <Slider Value="{Binding BrushDrawingThickness, Mode=TwoWay}"
+        <Slider Value="{Binding BrushDrawingThickness, 
+                Mode=TwoWay, Converter={StaticResource DoubleConverter}}"
                 Minimum="10"
                 Maximum="30"/>
       </StackPanel>

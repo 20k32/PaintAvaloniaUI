@@ -81,7 +81,6 @@ namespace Paint_AvaloniaUI.Models
 
         //this optimization needed to prevent memory leak
         //because of creating practically the same points and stublines
-
         private double CalculateDistance(Point a, Point b) =>
             Math.Sqrt(Math.Pow((b.X - a.X), 2) +
                 Math.Pow((b.Y - a.Y), 2));
@@ -115,8 +114,5 @@ namespace Paint_AvaloniaUI.Models
             shapes.Clear();
             TempPolyLines.Clear();
         }
-
-        public override bool CanClearCanvas(ObservableCollection<Shape> shapes) =>
-            shapes.Count != 0;
     }
 }

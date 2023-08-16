@@ -1,7 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
-using Avalonia.Media;
-using Avalonia.Metadata;
+﻿using Avalonia.Media;
 using CommunityToolkit.Mvvm.Input;
 using Paint_AvaloniaUI.Models;
 using Paint_AvaloniaUI.ViewModels.ControlViewModels;
@@ -20,6 +17,18 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     internal PaintModelBase UserDrawingStyle => new HandDrawingModel();
+
+    #region EraseButtonName
+
+    private string eraseButtonName = "Erase";
+
+    public string EraseButtonName
+    {
+        get => eraseButtonName;
+        set => SetProperty(ref eraseButtonName, value);
+    }
+
+    #endregion
 
     #region Thickness
 
@@ -57,35 +66,36 @@ public partial class MainWindowViewModel : ViewModelBase
 
     #endregion
 
-
     #region Commands
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanExecDrawing))]
     private void EraseDrawing()
     {
         if (BrushDrawingColor.Color != Colors.AntiqueWhite)
         {
             BrushDrawingColor.Color = Colors.AntiqueWhite;
+            EraseButtonName = "Draw";
         }
         else
         {
             BrushDrawingColor.Color = Colors.Green;
+            EraseButtonName = "Erase";
         }
 
         OnPropertyChanged(nameof(BrushDrawingColor));
     }
 
-    [RelayCommand(CanExecute = nameof(CanExecClearDrawing))]
+    [RelayCommand(CanExecute = nameof(CanExecDrawing))]
     private void ClearDrawing() =>
         PaintCanvasVM.ClearCanvas();
 
-    private bool CanExecClearDrawing() =>
+    private bool CanExecDrawing() =>
         PaintCanvasVM.CanClearCanvas();
-    
 
     private void CanExecuteCommandsUpdater()
     {
         ClearDrawingCommand.NotifyCanExecuteChanged();
+        EraseDrawingCommand.NotifyCanExecuteChanged();
     }
 
     #endregion

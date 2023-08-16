@@ -1,16 +1,21 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:viewLocator="using:Paint_AvaloniaUI.ViewLocator"
+             xmlns:converter="using:Paint_AvaloniaUI.Converters"
              x:Class="Paint_AvaloniaUI.App"
              RequestedThemeVariant="Light">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+  <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
-    <Application.Styles>
-        <FluentTheme />
-    </Application.Styles>
+  <Application.Styles>
+    <FluentTheme />
+  </Application.Styles>
 
   <Application.DataTemplates>
     <viewLocator:ViewLocator/>
   </Application.DataTemplates>
-  
+
+  <Application.Resources>
+    <converter:DoubleToNormalDoubleConverter x:Key="DoubleConverter"/>
+  </Application.Resources>
+
 </Application>
