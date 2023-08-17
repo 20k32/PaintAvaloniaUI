@@ -8,12 +8,20 @@ namespace Paint_AvaloniaUI.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     private PaintCanvasViewModel paintCanvasViewModel = null!;
+    private IRelayCommand CurrentCommand = null!;
+    private PaintModelBase[] DrawingStyles = null!;
 
     internal PaintCanvasViewModel PaintCanvasVM => paintCanvasViewModel;
 
     public MainWindowViewModel()
     {
         paintCanvasViewModel = new PaintCanvasViewModel(UserDrawingStyle, CanExecuteCommandsUpdater);
+
+        DrawingStyles = new PaintModelBase[2]
+        {
+            new HandDrawingModel(),
+            new BrushFillModel(PaintCanvasVM.Shapes)
+        };
     }
 
     #region DrawingStyle
@@ -96,11 +104,20 @@ public partial class MainWindowViewModel : ViewModelBase
         OnPropertyChanged(nameof(BrushDrawingColor));
     }
 
-    [RelayCommand(CanExecute = nameof(CanExecDrawing))]
-    private void ClearDrawing() =>
-        PaintCanvasVM.ClearCanvas();
+    [RelayCommand(CanExecute = nameof(CanExecClearCanvas))]
+    private void ClearDrawing()
+    {
+        foreach (var item in DrawingStyles)
+        {
+            item.ClearCanvas(PaintCanvasVM.Shapes);
+        }
+    }
 
     private bool CanExecDrawing() =>
+        PaintCanvasVM.CanClearCanvas()
+        && CurrentCommand != BrushFillStyleCommand;
+
+    private bool CanExecClearCanvas() =>
         PaintCanvasVM.CanClearCanvas();
 
     private void CanExecuteCommandsUpdater()
@@ -116,13 +133,17 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void HandDrawingStyle()
     {
-        UserDrawingStyle = new HandDrawingModel();
+        UserDrawingStyle = DrawingStyles[0];
+        CurrentCommand = HandDrawingStyleCommand;
+        CanExecuteCommandsUpdater();
     }
 
     [RelayCommand]
     private void BrushFillStyle()
     {
-        UserDrawingStyle = new BrushFillModel(PaintCanvasVM.Shapes);
+        UserDrawingStyle = DrawingStyles[1];
+        CurrentCommand = BrushFillStyleCommand;
+        CanExecuteCommandsUpdater();
     }
 
     #endregion

@@ -17,12 +17,12 @@ namespace Paint_AvaloniaUI.Models
         public static double DrawingThickness;
         public static SolidColorBrush CurrentCanvasBackground = null!;
 
-        public abstract void OnPointerPressed(PointerPressedEventArgs e);
+        public virtual void OnPointerPressed(PointerPressedEventArgs e) { }
         public abstract void OnPointerReleased(PointerReleasedEventArgs e);
-        public abstract void OnPointerMoved(PointerEventArgs e);
-        public abstract void ClearStubObjects(ObservableCollection<Shape> shapes);
-        public abstract void AddRegularObjects(ObservableCollection<Shape> shapes);
-        public abstract void ClearCanvas(ObservableCollection<Shape> shapes);
+        public virtual void OnPointerMoved(PointerEventArgs e) { }
+        public virtual void ClearStubObjects(ObservableCollection<Shape> shapes) { }
+        public virtual void AddRegularObjects(ObservableCollection<Shape> shapes) { }
+        public virtual void ClearCanvas(ObservableCollection<Shape> shapes) { }
         public virtual bool CanClearCanvas(ObservableCollection<Shape> shapes) =>
             shapes.Count != 0;
 

@@ -24,10 +24,10 @@ namespace Paint_AvaloniaUI.Models
         private Shape TemporaryResultPolygon;
         private ObservableCollection<Shape> Shapes;
 
-        public BrushFillModel(ObservableCollection<Shape> shpapes)
+        public BrushFillModel(ObservableCollection<Shape> shapes)
         {
             CanvasShapesPoints = new();
-            Shapes = shpapes;
+            Shapes = shapes;
         }
 
         protected override int MinRenderDistance => 10;
@@ -40,18 +40,6 @@ namespace Paint_AvaloniaUI.Models
                 shapes.Add(TemporaryResultPolygon);
             }
         }
-
-        public override void ClearCanvas(ObservableCollection<Shape> shapes)
-        { }
-
-        public override void ClearStubObjects(ObservableCollection<Shape> shapes)
-        { }
-
-        public override void OnPointerMoved(PointerEventArgs e)
-        { }
-
-        public override void OnPointerPressed(PointerPressedEventArgs e)
-        { }
 
         public override void OnPointerReleased(PointerReleasedEventArgs e)
         {
@@ -66,12 +54,12 @@ namespace Paint_AvaloniaUI.Models
 
             var shape = GetShapeRelativeTo(startPoint);
             
-            if(shape is not null)
+            if(shape != null)
             {
                 var polygon = new Polygon()
                 {
                     Points = ((Polyline)shape).Points,
-                    Fill = new SolidColorBrush(Colors.Black),
+                    Fill = DrawingColor,
                 };
 
                 TemporaryResultPolygon = polygon;
@@ -84,10 +72,6 @@ namespace Paint_AvaloniaUI.Models
             {
                 switch (shape)
                 {
-                    case Line line: 
-                        AddPointToHashSet(line.StartPoint);
-                        AddPointToHashSet(line.EndPoint);
-                        break;
                     case Polyline polyline:
                         AddPointSetToHashSet(polyline.Points);
                         break;
@@ -95,25 +79,17 @@ namespace Paint_AvaloniaUI.Models
             }
         }
 
-        private void AddPointToHashSet(Point p)
-        {
-            if (!CanvasShapesPoints.Contains(p))
-            {
-                CanvasShapesPoints.Add(p);
-            }
-        }
-
         private void AddPointSetToHashSet(IEnumerable<Point> points)
         {
             foreach (var point in points)
             {
-                AddPointToHashSet(point);
+                CanvasShapesPoints.Add(point);
             }
         }
 
         private Shape GetShapeRelativeTo(Point start)
         {
-            List<Point> visitedPoints = new();
+            HashSet<Point> visitedPoints = new();
 
             while(visitedPoints.Count != CanvasShapesPoints.Count)
             {
@@ -152,6 +128,13 @@ namespace Paint_AvaloniaUI.Models
             }
             
             return null!;
+        }
+
+        public override void ClearCanvas(ObservableCollection<Shape> shapes)
+        {
+            CanvasShapesPoints.Clear();
+            TemporaryResultPolygon = null!;
+            shapes.Clear();
         }
 
     }

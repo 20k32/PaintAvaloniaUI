@@ -9,8 +9,6 @@ using System.Diagnostics;
 
 namespace Paint_AvaloniaUI.ViewModels.ControlViewModels
 {
-    // attached to PaintCanvasView.axaml by viewlocator
-
     public partial class PaintCanvasViewModel : ViewModelBase
     {
         public ObservableCollection<Shape> Shapes { get; set; }
