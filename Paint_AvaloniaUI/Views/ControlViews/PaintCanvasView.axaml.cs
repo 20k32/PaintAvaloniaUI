@@ -34,6 +34,22 @@ namespace Paint_AvaloniaUI.Views.ControlViews
 
         #endregion
 
+        #region BrushFillColor
+
+        internal static readonly DirectProperty<PaintCanvasView, SolidColorBrush> BrushFillColorProperty =
+            AvaloniaProperty.RegisterDirect<PaintCanvasView, SolidColorBrush>(
+                nameof(BrushFillColor),
+                getter => getter.BrushFillColor,
+                (setter, value) => setter.BrushFillColor = value);
+
+        public SolidColorBrush BrushFillColor
+        {
+            get => PaintModelBase.BrushFillColor;
+            set => SetAndRaise(BrushFillColorProperty, ref PaintModelBase.BrushFillColor, value);
+        }
+
+        #endregion
+
         #region DrawinghThickness
 
         internal static readonly DirectProperty<PaintCanvasView, double> DrawingThicknessProperty =

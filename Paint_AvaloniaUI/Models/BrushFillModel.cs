@@ -59,7 +59,7 @@ namespace Paint_AvaloniaUI.Models
                 var polygon = new Polygon()
                 {
                     Points = ((Polyline)shape).Points,
-                    Fill = DrawingColor,
+                    Fill = BrushFillColor,
                 };
 
                 TemporaryResultPolygon = polygon;

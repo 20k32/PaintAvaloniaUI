@@ -11,6 +11,8 @@ public partial class MainWindowViewModel : ViewModelBase
     private IRelayCommand CurrentCommand = null!;
     private PaintModelBase[] DrawingStyles = null!;
 
+    public SolidColorBrush BrushFillColor => new SolidColorBrush(Colors.Black);
+
     internal PaintCanvasViewModel PaintCanvasVM => paintCanvasViewModel;
 
     public MainWindowViewModel()
@@ -107,10 +109,14 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanExecClearCanvas))]
     private void ClearDrawing()
     {
+        var model = PaintCanvasVM.Paint;
+
         foreach (var item in DrawingStyles)
         {
-            item.ClearCanvas(PaintCanvasVM.Shapes);
+            PaintCanvasVM.Paint = item;
+            PaintCanvasVM.ClearCanvas();
         }
+        PaintCanvasVM.Paint = model;
     }
 
     private bool CanExecDrawing() =>

@@ -52,6 +52,7 @@
 
       <control:PaintCanvasView Grid.Column="1"
                                DataContext="{Binding PaintCanvasVM}"
+                               BrushFillColor="{Binding $parent[Window].DataContext.BrushFillColor}"
                                CanvasBackground="{Binding $parent[Window].DataContext.Background}"
                                DrawingStyle="{Binding $parent[Window].DataContext.UserDrawingStyle}"
                                DrawingThickness="{Binding $parent[Window].DataContext.BrushDrawingThickness}"

@@ -16,6 +16,7 @@ namespace Paint_AvaloniaUI.Models
         public static SolidColorBrush DrawingColor = null!;
         public static double DrawingThickness;
         public static SolidColorBrush CurrentCanvasBackground = null!;
+        public static SolidColorBrush BrushFillColor = null!;
 
         public virtual void OnPointerPressed(PointerPressedEventArgs e) { }
         public abstract void OnPointerReleased(PointerReleasedEventArgs e);
