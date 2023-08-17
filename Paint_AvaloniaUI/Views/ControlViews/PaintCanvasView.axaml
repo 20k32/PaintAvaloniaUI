@@ -11,11 +11,6 @@
              x:DataType="viewModel:PaintCanvasViewModel"
              x:Name="PaintControl">
   <ItemsControl ItemsSource="{Binding Shapes}">
-    <ItemsControl.Styles>
-      <Style Selector="ItemsControl.items > ContentControl">
-        <Setter Property="Canvas.Top" Value="0" />
-      </Style>
-    </ItemsControl.Styles>
     <ItemsControl.ItemsPanel>
       <ItemsPanelTemplate>
         <Canvas Background="{Binding CanvasBackground, ElementName=PaintControl}">

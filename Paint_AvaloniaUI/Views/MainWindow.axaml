@@ -44,13 +44,17 @@
     </Grid>
     <Grid x:CompileBindings="False"
           Grid.Row="1"
+          Background="Gray"
           ColumnDefinitions="Auto, *, Auto">
       <Panel Background="Gray"
              Grid.Column="0"
              Width="10">
       </Panel>
-
-      <control:PaintCanvasView Grid.Column="1"
+      <Border BorderBrush="{Binding $parent[Window].DataContext.Background}"  
+              CornerRadius="10" 
+              BorderThickness="4"
+              Grid.Column="1">
+        <control:PaintCanvasView
                                DataContext="{Binding PaintCanvasVM}"
                                BrushFillColor="{Binding $parent[Window].DataContext.BrushFillColor}"
                                CanvasBackground="{Binding $parent[Window].DataContext.Background}"
@@ -58,7 +62,9 @@
                                DrawingThickness="{Binding $parent[Window].DataContext.BrushDrawingThickness}"
                                DrawingColor="{Binding $parent[Window].DataContext.BrushDrawingColor}"/>
 
-      <Panel Background="Gray"
+      </Border>
+
+<Panel Background="Gray"
              Grid.Column="2"
              Width="10"/>
     </Grid>
