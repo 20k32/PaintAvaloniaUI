@@ -1,20 +1,10 @@
 ﻿using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
-using Avalonia.Media;
-using Avalonia.Media.Imaging;
-using Avalonia.OpenGL.Egl;
-using Avalonia.OpenGL.Surfaces;
 using Paint_AvaloniaUI.Models.Extensions;
-using SkiaSharp;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Paint_AvaloniaUI.Models
 {
@@ -89,7 +79,7 @@ namespace Paint_AvaloniaUI.Models
 
         private Shape GetShapeRelativeTo(Point start)
         {
-            HashSet<Point> visitedPoints = new();
+            List<Point> visitedPoints = new();
 
             while(visitedPoints.Count != CanvasShapesPoints.Count)
             {
@@ -136,6 +126,22 @@ namespace Paint_AvaloniaUI.Models
             TemporaryResultPolygon = null!;
             shapes.Clear();
         }
+
+        public override void Undo(ObservableCollection<Shape> shapes)
+        {
+            var lastPolygon = shapes.LastOrDefault(x => x.GetType() == typeof(Polygon));
+
+            if(lastPolygon != null)
+            {
+                shapes.Remove(lastPolygon);
+            }
+
+            TemporaryResultPolygon = lastPolygon!;
+        }
+
+        public override bool CanUndo(ObservableCollection<Shape> shapes) => 
+            TemporaryResultPolygon != null!
+            && shapes.FirstOrDefault(elem => elem.GetType() == typeof(Polygon)) != null;
 
     }
 }

@@ -30,6 +30,8 @@
                 Command="{Binding HandDrawingStyleCommand}"/>
         <Button Content="BrushFill"
                 Command="{Binding BrushFillStyleCommand}"/>
+        <Button Content="Undo"
+                Command="{Binding UndoLastDrawingCommand}"/>
       </WrapPanel>
       <StackPanel Grid.Column="1"
                   Width="200"
@@ -54,14 +56,12 @@
               CornerRadius="10" 
               BorderThickness="4"
               Grid.Column="1">
-        <control:PaintCanvasView
-                               DataContext="{Binding PaintCanvasVM}"
-                               BrushFillColor="{Binding $parent[Window].DataContext.BrushFillColor}"
-                               CanvasBackground="{Binding $parent[Window].DataContext.Background}"
-                               DrawingStyle="{Binding $parent[Window].DataContext.UserDrawingStyle}"
-                               DrawingThickness="{Binding $parent[Window].DataContext.BrushDrawingThickness}"
-                               DrawingColor="{Binding $parent[Window].DataContext.BrushDrawingColor}"/>
-
+        <control:PaintCanvasView DataContext="{Binding PaintCanvasVM}"
+                                 BrushFillColor="{Binding $parent[Window].DataContext.BrushFillColor}"
+                                 CanvasBackground="{Binding $parent[Window].DataContext.Background}"
+                                 DrawingStyle="{Binding $parent[Window].DataContext.UserDrawingStyle}"
+                                 DrawingThickness="{Binding $parent[Window].DataContext.BrushDrawingThickness}"
+                                 DrawingColor="{Binding $parent[Window].DataContext.BrushDrawingColor}"/>
       </Border>
 
 <Panel Background="Gray"

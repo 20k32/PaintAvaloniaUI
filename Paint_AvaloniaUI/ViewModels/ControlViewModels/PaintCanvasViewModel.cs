@@ -24,6 +24,16 @@ namespace Paint_AvaloniaUI.ViewModels.ControlViewModels
             Notification = notifyCanExecuteChanged;
         }
 
+        public void Undo()
+        {
+            Paint.Undo(Shapes);
+            Notification?.Invoke();
+        }
+            
+
+        public bool CanUndo() =>
+            Shapes.Count != 0 && Paint.CanUndo(Shapes);
+
         public void ClearCanvas()
         {
             Paint.ClearCanvas(Shapes);

@@ -2,6 +2,7 @@
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Media;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Paint_AvaloniaUI.Models.Extensions;
 using Paint_AvaloniaUI.Models.StubModels;
 using System;
@@ -20,7 +21,7 @@ namespace Paint_AvaloniaUI.Models
         private static LinkedList<StubPolyline> TempPolyLines;
         private static LinkedList<StubLine> TempLines;
         private static LinkedList<Point> PointsForPolyline;
-        
+
         private Point PreviousLocation;
 
         static HandDrawingModel()
@@ -108,5 +109,20 @@ namespace Paint_AvaloniaUI.Models
             shapes.Clear();
             TempPolyLines.Clear();
         }
+
+        public override void Undo(ObservableCollection<Shape> shapes)
+        {
+            var lastPolyline = shapes.Last(elem => elem.GetType() == typeof(StubPolyline));
+
+            if (lastPolyline != null)
+            {
+                shapes.Remove(lastPolyline);
+                TempPolyLines.RemoveLast();
+            }
+        }
+        public override bool CanUndo(ObservableCollection<Shape> shapes) => 
+            TempPolyLines.Count != 0
+            &&  shapes
+                   .FirstOrDefault(elem => elem.GetType() == typeof(StubPolyline)) != null;
     }
 }

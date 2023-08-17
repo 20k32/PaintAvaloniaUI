@@ -20,6 +20,8 @@ namespace Paint_AvaloniaUI.Models
 
         public virtual void OnPointerPressed(PointerPressedEventArgs e) { }
         public abstract void OnPointerReleased(PointerReleasedEventArgs e);
+        public abstract void Undo(ObservableCollection<Shape> shapes);
+        public abstract bool CanUndo(ObservableCollection<Shape> shapes);
         public virtual void OnPointerMoved(PointerEventArgs e) { }
         public virtual void ClearStubObjects(ObservableCollection<Shape> shapes) { }
         public virtual void AddRegularObjects(ObservableCollection<Shape> shapes) { }

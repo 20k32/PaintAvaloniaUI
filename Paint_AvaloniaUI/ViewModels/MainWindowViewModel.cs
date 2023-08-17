@@ -39,6 +39,13 @@ public partial class MainWindowViewModel : ViewModelBase
 
     #endregion
 
+    private void CanExecuteCommandsUpdater()
+    {
+        ClearDrawingCommand.NotifyCanExecuteChanged();
+        EraseDrawingCommand.NotifyCanExecuteChanged();
+        UndoLastDrawingCommand.NotifyCanExecuteChanged();
+    }
+
     #region EraseButtonName
 
     private string eraseButtonName = "Erase";
@@ -126,12 +133,6 @@ public partial class MainWindowViewModel : ViewModelBase
     private bool CanExecClearCanvas() =>
         PaintCanvasVM.CanClearCanvas();
 
-    private void CanExecuteCommandsUpdater()
-    {
-        ClearDrawingCommand.NotifyCanExecuteChanged();
-        EraseDrawingCommand.NotifyCanExecuteChanged();
-    }
-
     #endregion
 
     #region DrawingStyleCommands
@@ -151,6 +152,17 @@ public partial class MainWindowViewModel : ViewModelBase
         CurrentCommand = BrushFillStyleCommand;
         CanExecuteCommandsUpdater();
     }
+
+    #endregion
+
+    #region UndoCommand
+
+    [RelayCommand(CanExecute = nameof(CanUndoLastDrawing))]
+    private void UndoLastDrawing() =>
+        PaintCanvasVM.Undo();
+
+    private bool CanUndoLastDrawing() =>
+        PaintCanvasVM.CanUndo();
 
     #endregion
 }
