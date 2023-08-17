@@ -16,7 +16,18 @@ public partial class MainWindowViewModel : ViewModelBase
         paintCanvasViewModel = new PaintCanvasViewModel(UserDrawingStyle, CanExecuteCommandsUpdater);
     }
 
-    internal PaintModelBase UserDrawingStyle => new HandDrawingModel();
+    #region DrawingStyle
+
+    private PaintModelBase userDrawingStyle = new HandDrawingModel();
+    
+    internal PaintModelBase UserDrawingStyle
+    {
+        get => userDrawingStyle;
+        set => SetProperty(ref userDrawingStyle, value);
+    }
+
+
+    #endregion
 
     #region EraseButtonName
 
@@ -66,7 +77,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     #endregion
 
-    #region Commands
+    #region DrawingCommands
 
     [RelayCommand(CanExecute = nameof(CanExecDrawing))]
     private void EraseDrawing()
@@ -96,6 +107,22 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         ClearDrawingCommand.NotifyCanExecuteChanged();
         EraseDrawingCommand.NotifyCanExecuteChanged();
+    }
+
+    #endregion
+
+    #region DrawingStyleCommands
+
+    [RelayCommand]
+    private void HandDrawingStyle()
+    {
+        UserDrawingStyle = new HandDrawingModel();
+    }
+
+    [RelayCommand]
+    private void BrushFillStyle()
+    {
+        UserDrawingStyle = new BrushFillModel(PaintCanvasVM.Shapes);
     }
 
     #endregion

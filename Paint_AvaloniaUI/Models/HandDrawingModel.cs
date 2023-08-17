@@ -79,12 +79,6 @@ namespace Paint_AvaloniaUI.Models
             TemporaryResultShape = line;
         }
 
-        //this optimization needed to prevent memory leak
-        //because of creating practically the same points and stublines
-        private double CalculateDistance(Point a, Point b) =>
-            Math.Sqrt(Math.Pow((b.X - a.X), 2) +
-                Math.Pow((b.Y - a.Y), 2));
-
         public override void ClearStubObjects(ObservableCollection<Shape> shapes)
         {
             foreach (var item in TempLines)

@@ -26,6 +26,10 @@
                 Command="{Binding EraseDrawingCommand}"/>
         <Button Content="Clear"
                 Command="{Binding ClearDrawingCommand}"/>
+        <Button Content="HandDrawing"
+                Command="{Binding HandDrawingStyleCommand}"/>
+        <Button Content="BrushFill"
+                Command="{Binding BrushFillStyleCommand}"/>
       </WrapPanel>
       <StackPanel Grid.Column="1"
                   Width="200"

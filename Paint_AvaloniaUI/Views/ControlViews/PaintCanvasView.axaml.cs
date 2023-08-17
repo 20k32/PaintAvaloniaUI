@@ -63,7 +63,9 @@ namespace Paint_AvaloniaUI.Views.ControlViews
             get => ViewModel.Paint;
             set
             {
-                if(ViewModel is not null)
+                ViewModel = (PaintCanvasViewModel)DataContext!;
+
+                if (ViewModel is not null)
                 {
                     SetAndRaise(DrawingStyleProperty, ref ViewModel.Paint, value);
                 }

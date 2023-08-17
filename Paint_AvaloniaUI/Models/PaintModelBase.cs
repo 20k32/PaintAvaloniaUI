@@ -1,6 +1,8 @@
-﻿using Avalonia.Controls.Shapes;
+﻿using Avalonia;
+using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Media;
+using System;
 using System.Collections.ObjectModel;
 
 namespace Paint_AvaloniaUI.Models
@@ -25,5 +27,11 @@ namespace Paint_AvaloniaUI.Models
             shapes.Count != 0;
 
         public Shape TemporaryResultShape = null!;
+
+        //this optimization needed to prevent memory leak
+        //because of creating practically the same points and stublines
+        protected double CalculateDistance(Point a, Point b) =>
+            Math.Sqrt(Math.Pow((b.X - a.X), 2) +
+                Math.Pow((b.Y - a.Y), 2));
     }
 }
