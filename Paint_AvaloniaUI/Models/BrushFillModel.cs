@@ -113,37 +113,44 @@ namespace Paint_AvaloniaUI.Models
 
         private Shape GetShapeRelativeTo(Point start)
         {
-            var result = new List<Point>();
+            List<Point> visitedPoints = new();
 
-            var minPoint= CanvasShapesPoints.First();
-            double minDistanceToElement = CalculateDistance(start, minPoint);
-
-            foreach(var point in CanvasShapesPoints.Skip(1))
+            while(visitedPoints.Count != CanvasShapesPoints.Count)
             {
-                var tempResult = CalculateDistance(start, point);
+                var minPoint = CanvasShapesPoints.First();
+                double minDistanceToElement = CalculateDistance(start, minPoint);
 
-                if(tempResult < minDistanceToElement)
+                foreach (var point in CanvasShapesPoints.Skip(1))
                 {
-                    minDistanceToElement = tempResult;
-                    minPoint = point;
+                    var tempResult = CalculateDistance(start, point);
+
+                    if (tempResult < minDistanceToElement
+                        && !visitedPoints.Contains(point))
+                    {
+                        minDistanceToElement = tempResult;
+                        minPoint = point;
+                    }
                 }
-            }
 
-            foreach(var shape in Shapes)
-            {
-                switch (shape)
+                visitedPoints.Add(minPoint);
+                
+                foreach (var shape in Shapes)
                 {
-                    case Polyline polyline:
-                        foreach(var point in polyline.Points)
-                        {
-                            if (point.NearlyEquals(minPoint))
+                    switch (shape)
+                    {
+                        case Polyline polyline:
+                            foreach (var point in polyline.Points)
                             {
-                                return polyline;
-                            }
-                        } break;
+                                if (point.NearlyEquals(minPoint))
+                                {
+                                    return polyline;
+                                }
+                            } 
+                            break;
+                    }
                 }
             }
-
+            
             return null!;
         }
 
