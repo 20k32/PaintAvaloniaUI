@@ -1,4 +1,6 @@
-﻿using Avalonia.Media;
+﻿using Avalonia.Controls;
+using Avalonia.Diagnostics;
+using Avalonia.Media;
 using CommunityToolkit.Mvvm.Input;
 using Paint_AvaloniaUI.Models;
 using Paint_AvaloniaUI.ViewModels.ControlViewModels;
@@ -10,8 +12,6 @@ public partial class MainWindowViewModel : ViewModelBase
     private PaintCanvasViewModel paintCanvasViewModel = null!;
     private IRelayCommand CurrentCommand = null!;
     private PaintModelBase[] DrawingStyles = null!;
-
-    public SolidColorBrush BrushFillColor => new SolidColorBrush(Colors.Black);
 
     internal PaintCanvasViewModel PaintCanvasVM => paintCanvasViewModel;
 
@@ -73,7 +73,19 @@ public partial class MainWindowViewModel : ViewModelBase
 
     #region Color
 
-    private SolidColorBrush brushDrawing = new SolidColorBrush(Colors.Green);
+    private Color brushDrawingColorSource = Colors.Black;
+
+    public Color BrushDrawingColorSource
+    {
+        get => brushDrawingColorSource;
+        set
+        {
+            brushDrawingColorSource = value;
+            BrushDrawingColor.Color = brushDrawingColorSource;
+        }
+    }
+
+    private SolidColorBrush brushDrawing = new SolidColorBrush(Colors.Black);
 
     public SolidColorBrush BrushDrawingColor
     {
@@ -83,7 +95,41 @@ public partial class MainWindowViewModel : ViewModelBase
 
     #endregion
 
+    #region BrushFill
+    private Color brushFillColorSource = Colors.Black;
+
+    public Color BrushFillColorSource
+    {
+        get => brushFillColorSource;
+        set
+        {
+            brushFillColorSource = value;
+            BrushFillColor = new SolidColorBrush(brushFillColorSource);
+        }
+    }
+
+    private SolidColorBrush brushFillColor = new SolidColorBrush(Colors.Black);
+    public SolidColorBrush BrushFillColor
+    {
+        get => brushFillColor;
+        set => SetProperty(ref brushFillColor, value);
+    }
+
+    #endregion
+
     #region Background
+
+    private Color backgroundColorSource = Colors.AntiqueWhite;
+
+    public Color BackgroundColorSource
+    {
+        get => backgroundColorSource;
+        set
+        {
+            SetProperty(ref backgroundColorSource, value);
+            Background.Color = backgroundColorSource;
+        }
+    }
 
     private SolidColorBrush background = new SolidColorBrush(Colors.AntiqueWhite);
 
@@ -164,6 +210,16 @@ public partial class MainWindowViewModel : ViewModelBase
 
     #endregion
 
+    #region ChangeColorCommands
+
+    [RelayCommand]
+    private void ToogleDrawingColorPicker()
+    {
+        var colorPicker = new ColorPicker();
+    }
+
+    #endregion
+    
     #region UndoCommand
 
     [RelayCommand(CanExecute = nameof(CanUndoLastDrawing))]

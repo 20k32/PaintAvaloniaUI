@@ -22,18 +22,40 @@
       <WrapPanel
         MinWidth="300"
         Grid.Column="0">
-        <Button Content="{Binding EraseButtonName}"
+        <StackPanel Orientation="Horizontal">
+          <Button Content="{Binding EraseButtonName}"
                 Command="{Binding EraseDrawingCommand}"/>
-        <Button Content="Clear"
-                Command="{Binding ClearDrawingCommand}"/>
-        <Button Content="HandDrawing"
+          <Button Content="Clear"
+                  Command="{Binding ClearDrawingCommand}"/>
+          <Button Content="Undo"
+               Command="{Binding UndoLastDrawingCommand}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <Button Content="HandDrawing"
                 Command="{Binding HandDrawingStyleCommand}"/>
-        <Button Content="BrushFill"
-                Command="{Binding BrushFillStyleCommand}"/>
-        <Button Content="StraightLine"
-                Command="{Binding StraightLineStyleCommand}"/>
-        <Button Content="Undo"
-                Command="{Binding UndoLastDrawingCommand}"/>
+          <Button Content="BrushFill"
+                  Command="{Binding BrushFillStyleCommand}"/>
+          <Button Content="StraightLine"
+                  Command="{Binding StraightLineStyleCommand}"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal"
+                    Spacing="10"
+                    Margin="10">
+          <StackPanel Orientation="Vertical">
+            <TextBlock Text="Drawing"/>
+            <ColorPicker x:CompileBindings="False" Color="{Binding BrushDrawingColorSource, Mode=TwoWay}"/>
+          </StackPanel>
+          <StackPanel Orientation="Vertical">
+            <TextBlock Text="Brush fill"/>
+            <ColorPicker Color="{Binding BrushFillColorSource, Mode=TwoWay}"/>
+          </StackPanel>
+          <StackPanel Orientation="Vertical">
+            <TextBlock Text="Background"/>
+            <ColorPicker Color="{Binding BackgroundColorSource, Mode=TwoWay}"/>
+          </StackPanel>
+        </StackPanel>
+
       </WrapPanel>
       <StackPanel Grid.Column="1"
                   Width="200"
@@ -54,8 +76,8 @@
              Grid.Column="0"
              Width="10">
       </Panel>
-      <Border BorderBrush="{Binding $parent[Window].DataContext.Background}"  
-              CornerRadius="10" 
+      <Border Background="{Binding $parent[Window].DataContext.Background}" 
+              CornerRadius="5" 
               BorderThickness="4"
               Grid.Column="1">
         <control:PaintCanvasView DataContext="{Binding PaintCanvasVM}"

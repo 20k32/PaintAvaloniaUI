@@ -32,7 +32,7 @@ namespace Paint_AvaloniaUI.Models
         public Shape TemporaryResultShape = null!;
 
         //this optimization needed to prevent memory leak
-        //because of creating practically the same points and stublines
+        //because of creating practically the same points and stub-lines/polylines
         protected double CalculateDistance(Point a, Point b) =>
             Math.Sqrt(Math.Pow((b.X - a.X), 2) +
                 Math.Pow((b.Y - a.Y), 2));

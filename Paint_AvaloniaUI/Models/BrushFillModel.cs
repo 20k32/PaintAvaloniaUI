@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
+using Avalonia.Media;
 using Paint_AvaloniaUI.Models.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

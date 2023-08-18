@@ -74,7 +74,6 @@ namespace Paint_AvaloniaUI.Models
                 }
             }
             
-
             var line = StubLine.GetStubLine(
                DrawingColor,
                PreviousLocation,
