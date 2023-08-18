@@ -13,93 +13,103 @@
         MinHeight="600"
         MinWidth="650"
         Height="600"
-        Width="800">
+        Width="800"
+        Background="Transparent"
+        TransparencyLevelHint="AcrylicBlur"
+        ExtendClientAreaToDecorationsHint="True">
+  <Panel>
+    <ExperimentalAcrylicBorder IsHitTestVisible="False">
+      <ExperimentalAcrylicBorder.Material>
+        <ExperimentalAcrylicMaterial
+            BackgroundSource="Digger"
+            TintColor="Black"
+            TintOpacity="0.3"
+            MaterialOpacity="0.7" />
+      </ExperimentalAcrylicBorder.Material>
+    </ExperimentalAcrylicBorder>
+    <Panel Margin="0, 30, 0, 0">
+      <Grid RowDefinitions="Auto, *, Auto">
+        <Grid Grid.Row="0"
+              ColumnDefinitions="*, Auto">
+          <WrapPanel
+            MinWidth="300"
+            Grid.Column="0"
+            Margin="5">
+            <StackPanel Orientation="Horizontal">
+              <Button Content="{Binding EraseButtonName}"
+                    Command="{Binding EraseDrawingCommand}"/>
+              <Button Content="Clear"
+                      Command="{Binding ClearDrawingCommand}"/>
+              <Button Content="Undo"
+                   Command="{Binding UndoLastDrawingCommand}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+              <Button Content="HandDrawing"
+                    Command="{Binding HandDrawingStyleCommand}"/>
+              <Button Content="BrushFill"
+                      Command="{Binding BrushFillStyleCommand}"/>
+              <Button Content="StraightLine"
+                      Command="{Binding StraightLineStyleCommand}"/>
+            </StackPanel>
 
-  <Grid RowDefinitions="Auto, *, Auto">
-    <Grid Grid.Row="0"
-          ColumnDefinitions="*, Auto"
-          Background="Gray">
-      <WrapPanel
-        MinWidth="300"
-        Grid.Column="0"
-        Margin="5">
-        <StackPanel Orientation="Horizontal">
-          <Button Content="{Binding EraseButtonName}"
-                Command="{Binding EraseDrawingCommand}"/>
-          <Button Content="Clear"
-                  Command="{Binding ClearDrawingCommand}"/>
-          <Button Content="Undo"
-               Command="{Binding UndoLastDrawingCommand}"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-          <Button Content="HandDrawing"
-                Command="{Binding HandDrawingStyleCommand}"/>
-          <Button Content="BrushFill"
-                  Command="{Binding BrushFillStyleCommand}"/>
-          <Button Content="StraightLine"
-                  Command="{Binding StraightLineStyleCommand}"/>
-        </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Spacing="10">
+              <StackPanel Orientation="Vertical">
+                <TextBlock Text="Drawing"/>
+                <ColorPicker x:CompileBindings="False" Color="{Binding BrushDrawingColorSource, Mode=TwoWay}"/>
+              </StackPanel>
+              <StackPanel Orientation="Vertical">
+                <TextBlock Text="Brush fill"/>
+                <ColorPicker Color="{Binding BrushFillColorSource, Mode=TwoWay}"/>
+              </StackPanel>
+              <StackPanel Orientation="Vertical">
+                <TextBlock Text="Background"/>
+                <ColorPicker Color="{Binding BackgroundColorSource, Mode=TwoWay}"/>
+              </StackPanel>
+            </StackPanel>
 
-        <StackPanel Orientation="Horizontal"
-                    Spacing="10"
-                    Margin="10">
-          <StackPanel Orientation="Vertical">
-            <TextBlock Text="Drawing"/>
-            <ColorPicker x:CompileBindings="False" Color="{Binding BrushDrawingColorSource, Mode=TwoWay}"/>
-          </StackPanel>
-          <StackPanel Orientation="Vertical">
-            <TextBlock Text="Brush fill"/>
-            <ColorPicker Color="{Binding BrushFillColorSource, Mode=TwoWay}"/>
-          </StackPanel>
-          <StackPanel Orientation="Vertical">
-            <TextBlock Text="Background"/>
-            <ColorPicker Color="{Binding BackgroundColorSource, Mode=TwoWay}"/>
-          </StackPanel>
-        </StackPanel>
-
-      </WrapPanel>
-      <StackPanel Grid.Column="1"
-                  Margin="10, 10, 10, 0"
-                  Spacing="0">
-        <TextBlock Text="{Binding BrushDrawingThickness}"
-                   FontWeight="Bold"
-                   FontSize="20"
-                   HorizontalAlignment="Center"/>
-        <Slider Value="{Binding BrushDrawingThickness, 
+          </WrapPanel>
+          <StackPanel Grid.Column="1"
+                      Margin="10, 10, 10, 0"
+                      Spacing="0">
+            <TextBlock Text="{Binding BrushDrawingThickness}"
+                       FontWeight="Bold"
+                       FontSize="20"
+                       HorizontalAlignment="Center"/>
+            <Slider Value="{Binding BrushDrawingThickness, 
                 Mode=TwoWay, Converter={StaticResource DoubleConverter}}"
-                Minimum="10"
-                Maximum="30"
-                Width="300"
-                Margin="10"/>
-      </StackPanel>
-    </Grid>
-    <Grid x:CompileBindings="False"
-          Grid.Row="1"
-          Background="Gray"
-          ColumnDefinitions="Auto, *, Auto">
-      <Panel Background="Gray"
-             Grid.Column="0"
-             Width="10">
-      </Panel>
-      <Border Background="{Binding $parent[Window].DataContext.Background}" 
-              CornerRadius="5" 
-              BorderThickness="4"
-              Grid.Column="1">
-        <control:PaintCanvasView DataContext="{Binding PaintCanvasVM}"
-                                 BrushFillColor="{Binding $parent[Window].DataContext.BrushFillColor}"
-                                 CanvasBackground="{Binding $parent[Window].DataContext.Background}"
-                                 DrawingStyle="{Binding $parent[Window].DataContext.UserDrawingStyle}"
-                                 DrawingThickness="{Binding $parent[Window].DataContext.BrushDrawingThickness}"
-                                 DrawingColor="{Binding $parent[Window].DataContext.BrushDrawingColor}"/>
-      </Border>
+                    Minimum="10"
+                    Maximum="30"
+                    Width="300"
+                    Margin="10"/>
+          </StackPanel>
+        </Grid>
+        <Grid x:CompileBindings="False"
+              Grid.Row="1"
+              ColumnDefinitions="Auto, *, Auto">
+          <Panel Grid.Column="0"
+                 Width="10">
+          </Panel>
+          <Border Background="{Binding $parent[Window].DataContext.Background}"
+                  CornerRadius="5"
+                  BorderThickness="4"
+                  Grid.Column="1">
+            <control:PaintCanvasView DataContext="{Binding PaintCanvasVM}"
+                                     BrushFillColor="{Binding $parent[Window].DataContext.BrushFillColor}"
+                                     CanvasBackground="{Binding $parent[Window].DataContext.Background}"
+                                     DrawingStyle="{Binding $parent[Window].DataContext.UserDrawingStyle}"
+                                     DrawingThickness="{Binding $parent[Window].DataContext.BrushDrawingThickness}"
+                                     DrawingColor="{Binding $parent[Window].DataContext.BrushDrawingColor}"/>
+          </Border>
 
-<Panel Background="Gray"
-             Grid.Column="2"
-             Width="10"/>
-    </Grid>
-    <Grid Grid.Row="2">
-      <Panel Background="Gray"
-             Height="50"/>
-    </Grid>
-  </Grid>
+          <Panel Grid.Column="2"
+                 Width="10"/>
+        </Grid>
+        <Grid Grid.Row="2">
+          <Panel Height="50"/>
+        </Grid>
+      </Grid>
+    </Panel>
+  </Panel>
+  
 </Window>
