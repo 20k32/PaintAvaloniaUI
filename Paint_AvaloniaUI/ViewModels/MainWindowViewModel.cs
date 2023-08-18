@@ -19,10 +19,11 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         paintCanvasViewModel = new PaintCanvasViewModel(UserDrawingStyle, CanExecuteCommandsUpdater);
 
-        DrawingStyles = new PaintModelBase[2]
+        DrawingStyles = new PaintModelBase[3]
         {
             new HandDrawingModel(),
-            new BrushFillModel(PaintCanvasVM.Shapes)
+            new BrushFillModel(PaintCanvasVM.Shapes),
+            new StraightLineModel(PaintCanvasVM.Shapes),
         };
     }
 
@@ -149,6 +150,14 @@ public partial class MainWindowViewModel : ViewModelBase
     private void BrushFillStyle()
     {
         UserDrawingStyle = DrawingStyles[1];
+        CurrentCommand = BrushFillStyleCommand;
+        CanExecuteCommandsUpdater();
+    }
+
+    [RelayCommand]
+    private void StraightLineStyle()
+    {
+        UserDrawingStyle = DrawingStyles[2];
         CurrentCommand = BrushFillStyleCommand;
         CanExecuteCommandsUpdater();
     }

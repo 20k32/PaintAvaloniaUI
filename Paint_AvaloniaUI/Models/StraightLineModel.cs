@@ -1,40 +1,39 @@
 ﻿using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Media;
-using Avalonia.Media.Imaging;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Paint_AvaloniaUI.Models.Extensions;
 using Paint_AvaloniaUI.Models.StubModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Paint_AvaloniaUI.Models
 {
-    internal class HandDrawingModel : PaintModelBase
+    internal class StraightLineModel : PaintModelBase
     {
         protected override int MinRenderDistance => 10;
 
-        private static LinkedList<StubPolyline> TempPolyLines;
-        private static LinkedList<StubLine> TempLines;
-        private static LinkedList<Point> PointsForPolyline;
+        private static LinkedList<StubLine> ResultLines = null!;
+        private static LinkedList<StubLine> TempLines = null!;
 
+        private ObservableCollection<Shape> Shapes = null!;
         private Point PreviousLocation;
 
-        static HandDrawingModel()
+        static StraightLineModel()
         {
-            TempPolyLines = new();
+            ResultLines = new();
             TempLines = new();
-            PointsForPolyline = new();
         }
 
-        public HandDrawingModel()
-        { }
+        public StraightLineModel(ObservableCollection<Shape> shapes)
+        {
+            Shapes = shapes;
+        }
 
         public override void OnPointerPressed(PointerPressedEventArgs e)
         {
@@ -45,12 +44,10 @@ namespace Paint_AvaloniaUI.Models
 
         public override void OnPointerReleased(PointerReleasedEventArgs e)
         {
-            var polyLine = StubPolyline
-                .GetStubPolyline(PointsForPolyline.ToArray(), DrawingColor, DrawingThickness);
+            var line = StubLine
+                .GetStubLine(DrawingColor, PreviousLocation, e.GetPositionRelative(), DrawingThickness);
 
-            PointsForPolyline.Clear();
-
-            TempPolyLines.AddLast(polyLine);
+            ResultLines.AddLast(line);
 
             IsDrawing = false;
         }
@@ -59,26 +56,32 @@ namespace Paint_AvaloniaUI.Models
         {
             var currentLocation = e.GetPositionRelative();
 
-            if (!IsDrawing
-                || CalculateDistance(PreviousLocation, currentLocation) < MinRenderDistance)
+            if (!IsDrawing)
             {
                 TemporaryResultShape = null!;
-
                 return;
             }
 
-            var line = StubLine.GetStubLine(
-                DrawingColor,
-                PreviousLocation,
-                currentLocation,
-                DrawingThickness);
+            if(TemporaryResultShape != null)
+            {
+                Shapes.Remove(TemporaryResultShape);
 
-            PointsForPolyline.AddLast(PreviousLocation);
-            PointsForPolyline.AddLast(currentLocation);
-            PreviousLocation = currentLocation;
+                var tempLine = (StubLine)TemporaryResultShape!;
+
+                if (CalculateDistance(tempLine.EndPoint, currentLocation) < MinRenderDistance)
+                {
+                    return;
+                }
+            }
+            
+
+            var line = StubLine.GetStubLine(
+               DrawingColor,
+               PreviousLocation,
+               currentLocation,
+               DrawingThickness);
 
             TempLines.AddLast(line);
-
             TemporaryResultShape = line;
         }
 
@@ -97,7 +100,7 @@ namespace Paint_AvaloniaUI.Models
 
         public override void AddRegularObjects(ObservableCollection<Shape> shapes)
         {
-            foreach (var item in TempPolyLines)
+            foreach (var item in ResultLines)
             {
                 if (!shapes.Contains(item))
                 {
@@ -109,22 +112,24 @@ namespace Paint_AvaloniaUI.Models
         public override void ClearCanvas(ObservableCollection<Shape> shapes)
         {
             shapes.Clear();
-            TempPolyLines.Clear();
+            ResultLines.Clear();
+            TempLines.Clear();
+            TemporaryResultShape = null!;
         }
 
         public override void Undo(ObservableCollection<Shape> shapes)
         {
-            var lastPolyline = shapes.Last(elem => elem.GetType() == typeof(StubPolyline));
+            var lastPolyline = shapes.Last(elem => elem.GetType() == typeof(StubLine));
 
             if (lastPolyline != null)
             {
                 shapes.Remove(lastPolyline);
-                TempPolyLines.RemoveLast();
+                ResultLines.RemoveLast();
             }
         }
-        public override bool CanUndo(ObservableCollection<Shape> shapes) => 
-            TempPolyLines.Count != 0
-            &&  shapes
-                   .FirstOrDefault(elem => elem.GetType() == typeof(StubPolyline)) != null;
+        public override bool CanUndo(ObservableCollection<Shape> shapes) =>
+            ResultLines.Count != 0
+            && shapes
+                   .FirstOrDefault(elem => elem.GetType() == typeof(StubLine)) != null;
     }
 }

@@ -1,8 +1,13 @@
-﻿using Avalonia.Controls.Shapes;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using CommunityToolkit.Mvvm.Input;
 using Paint_AvaloniaUI.Models;
+using Paint_AvaloniaUI.Models.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;

@@ -30,6 +30,8 @@
                 Command="{Binding HandDrawingStyleCommand}"/>
         <Button Content="BrushFill"
                 Command="{Binding BrushFillStyleCommand}"/>
+        <Button Content="StraightLine"
+                Command="{Binding StraightLineStyleCommand}"/>
         <Button Content="Undo"
                 Command="{Binding UndoLastDrawingCommand}"/>
       </WrapPanel>
