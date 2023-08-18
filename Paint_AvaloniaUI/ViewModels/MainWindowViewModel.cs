@@ -146,14 +146,14 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanExecDrawing))]
     private void EraseDrawing()
     {
-        if (BrushDrawingColor.Color != Colors.AntiqueWhite)
+        if (BrushDrawingColor.Color != backgroundColorSource)
         {
-            BrushDrawingColor.Color = Colors.AntiqueWhite;
+            BrushDrawingColor.Color = BackgroundColorSource;
             EraseButtonName = "Draw";
         }
         else
         {
-            BrushDrawingColor.Color = Colors.Green;
+            BrushDrawingColor.Color = BrushDrawingColorSource;
             EraseButtonName = "Erase";
         }
 
@@ -206,16 +206,6 @@ public partial class MainWindowViewModel : ViewModelBase
         UserDrawingStyle = DrawingStyles[2];
         CurrentCommand = BrushFillStyleCommand;
         CanExecuteCommandsUpdater();
-    }
-
-    #endregion
-
-    #region ChangeColorCommands
-
-    [RelayCommand]
-    private void ToogleDrawingColorPicker()
-    {
-        var colorPicker = new ColorPicker();
     }
 
     #endregion

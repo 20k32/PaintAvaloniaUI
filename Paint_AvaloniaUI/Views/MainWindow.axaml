@@ -11,7 +11,7 @@
         x:DataType="viewModel:MainWindowViewModel"
         x:Name="MainWindowControl"
         MinHeight="600"
-        MinWidth="600"
+        MinWidth="650"
         Height="600"
         Width="800">
 
@@ -21,7 +21,8 @@
           Background="Gray">
       <WrapPanel
         MinWidth="300"
-        Grid.Column="0">
+        Grid.Column="0"
+        Margin="5">
         <StackPanel Orientation="Horizontal">
           <Button Content="{Binding EraseButtonName}"
                 Command="{Binding EraseDrawingCommand}"/>
@@ -58,14 +59,18 @@
 
       </WrapPanel>
       <StackPanel Grid.Column="1"
-                  Width="200"
-                  MinWidth="100"
-                  Margin="10, 10, 10, 0">
-        <TextBlock Text="{Binding BrushDrawingThickness}" HorizontalAlignment="Center"/>
+                  Margin="10, 10, 10, 0"
+                  Spacing="0">
+        <TextBlock Text="{Binding BrushDrawingThickness}"
+                   FontWeight="Bold"
+                   FontSize="20"
+                   HorizontalAlignment="Center"/>
         <Slider Value="{Binding BrushDrawingThickness, 
                 Mode=TwoWay, Converter={StaticResource DoubleConverter}}"
                 Minimum="10"
-                Maximum="30"/>
+                Maximum="30"
+                Width="300"
+                Margin="10"/>
       </StackPanel>
     </Grid>
     <Grid x:CompileBindings="False"
